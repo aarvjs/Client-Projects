@@ -1,10 +1,10 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 
-const variants = {
+const variants: Variants = {
   initial: {
     opacity: 0,
     y: 20,
