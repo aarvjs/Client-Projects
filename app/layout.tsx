@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingButton from "@/components/FloatingButton";
-import Preloader from "@/components/Preloader";
+import PreloaderWrapper from "@/components/PreloaderWrapper";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,16 +27,18 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} h-full antialiased scroll-smooth`}
+      suppressHydrationWarning
     >
+
       <body className="min-h-full font-sans bg-slate-50">
-        {/* First-load preloader — renders once, fades out automatically */}
-        <Preloader />
-        <Navbar />
-        <main>
-          {children}
-        </main>
-        <Footer />
-        <FloatingButton />
+        <PreloaderWrapper>
+          <Navbar />
+          <main>
+            {children}
+          </main>
+          <Footer />
+          <FloatingButton />
+        </PreloaderWrapper>
       </body>
     </html>
   );

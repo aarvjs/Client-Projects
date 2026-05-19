@@ -318,3 +318,12 @@ body {
     gap: 12px;
   }
 }
+
+/* ── Preloader Flicker Fix & App Logic ── */
+.website-content.loading {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+}
+

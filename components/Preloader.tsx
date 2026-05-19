@@ -19,15 +19,11 @@ const BookIcon = () => (
 );
 
 /* ─── Main Preloader ─────────────────────────────────────────────── */
-export default function Preloader() {
-  const [mounted, setMounted] = useState(false);
+export default function Preloader({ onComplete }: { onComplete?: () => void }) {
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Setting mounted to true on client avoids SSR hydration mismatches
-    setMounted(true);
-
     // Animate progress 0 → 100 over ~1.4 s
     const step = 100 / 70; // 70 ticks × 20ms ≈ 1.4s
     let current = 0;
@@ -37,14 +33,17 @@ export default function Preloader() {
       setProgress(Math.round(current));
       if (current >= 100) {
         clearInterval(timer);
-        setTimeout(() => setVisible(false), 300); // slight hold at 100%
+        setTimeout(() => {
+          setVisible(false);
+          if (onComplete) onComplete();
+        }, 300); // slight hold at 100%
       }
     }, 20);
     return () => clearInterval(timer);
-  }, []);
+  }, [onComplete]);
 
-  // Prevent SSR rendering entirely to eliminate hydration errors completely
-  if (!mounted) return null;
+  // Render preloader on SSR for SEO and no-flicker experience.
+  // We use CSS and PreloaderWrapper to handle subsequent loads seamlessly.
 
   return (
     <AnimatePresence>
